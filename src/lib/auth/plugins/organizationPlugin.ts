@@ -1,5 +1,5 @@
 import { organization } from "better-auth/plugins/organization";
-import { accessControl, canAssignRole, type OrgRole } from "../hooks/oraganization/permissions";
+// import { accessControl, canAssignRole, type OrgRole } from "../hooks/oraganization/permissions";
 import ENVConfig from "@/config";
 import { routes } from "@/routes";
 import { sendOrganizationInvitation } from "@/email/email-templates/organization/organization-invitation";
@@ -11,7 +11,7 @@ import { and, eq } from "drizzle-orm";
 const baseURL = ENVConfig.backend_base_url;
 
 export const organizationPlugin = organization({
-    ...accessControl,
+    // ...accessControl,
     teams: { enabled: true, defaultTeam: { enabled: false } },
     schema: {
         member: {

@@ -31,23 +31,23 @@ const topItems = [
   // { title: "Points", url: routes.dashboard.points(), icon: TrendingUp },
 ];
 
-const personalItems = [
-  { title: "Invites", url: routes.dashboard.invites(), icon: Flame },
-  { title: "Points", url: routes.dashboard.points(), icon: TrendingUp },
-];
+// const personalItems = [
+//   { title: "Invites", url: routes.dashboard.invites(), icon: Flame },
+//   { title: "Points", url: routes.dashboard.points(), icon: TrendingUp },
+// ];
 
-const organizationItems = [
-  { title: "Leaderboard", url: routes.dashboard.leaderboard(), icon: Trophy },
-  { title: "Members", url: routes.dashboard.members(), icon: Users },
-  { title: "Events", url: routes.dashboard.events(), icon: CalendarDays },
-  // { title: "Attendance", url: routes.dashboard.attendance(), icon: ClipboardList },
-];
+// const organizationItems = [
+//   { title: "Leaderboard", url: routes.dashboard.leaderboard(), icon: Trophy },
+//   { title: "Members", url: routes.dashboard.members(), icon: Users },
+//   { title: "Events", url: routes.dashboard.events(), icon: CalendarDays },
+//   // { title: "Attendance", url: routes.dashboard.attendance(), icon: ClipboardList },
+// ];
 
-const settingsItems = [
-  { title: "Organizations", url: routes.dashboard.organizations(), icon: Building2 },
-  { title: "Settings", url: routes.dashboard.settings(), icon: Settings },
-  { title: "Integrations", url: routes.dashboard.integrations(), icon: Plug },
-];
+// const settingsItems = [
+//   { title: "Organizations", url: routes.dashboard.organizations(), icon: Building2 },
+//   { title: "Settings", url: routes.dashboard.settings(), icon: Settings },
+//   { title: "Integrations", url: routes.dashboard.integrations(), icon: Plug },
+// ];
 
 function NavItems({ items }: { items: typeof topItems }) {
   const pathname = usePathname();
@@ -76,7 +76,7 @@ export function NavMenu() {
         <NavItems items={topItems} />
       </SidebarGroup>
 
-      <SidebarGroup>
+      {/* <SidebarGroup>
         <SidebarGroupLabel>Personal</SidebarGroupLabel>
         <NavItems items={personalItems} />
       </SidebarGroup>
@@ -89,7 +89,7 @@ export function NavMenu() {
       <SidebarGroup>
         <SidebarGroupLabel>Settings</SidebarGroupLabel>
         <NavItems items={settingsItems} />
-      </SidebarGroup>
+      </SidebarGroup> */}
     </>
   );
 }

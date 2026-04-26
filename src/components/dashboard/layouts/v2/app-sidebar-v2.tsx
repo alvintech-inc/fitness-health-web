@@ -29,7 +29,6 @@ import {
 import { cn } from "@/lib/utils";
 import { routes } from "@/routes";
 // import { OrgSwitcherDialog } from "../../org-switcher";
-import { useActiveOrganization } from "@/lib/auth/hooks/oraganization";
 import {
   Drawer,
   DrawerContent,
