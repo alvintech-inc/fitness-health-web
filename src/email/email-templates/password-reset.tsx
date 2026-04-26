@@ -1,0 +1,112 @@
+/**
+ * Password Reset Email Template
+ *
+ * Sent when users request to reset their password.
+ * Used with better-auth or any authentication system.
+ */
+
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Preview,
+  render,
+  Tailwind,
+  Text,
+} from "@react-email/components";
+import { sendEmail } from "../send-email";
+import { appName } from "@/config";
+
+interface PasswordResetEmailTemplateProps {
+  /** URL to reset the password */
+  resetUrl: string;
+  /** How long until the link expires */
+  expiresIn: string;
+  companyName: string;
+}
+
+export function PasswordResetEmailTemplate({
+  resetUrl,
+  expiresIn,
+  companyName
+}: PasswordResetEmailTemplateProps) {
+  return (
+    <Html lang="en">
+      <Head />
+      <Preview>Create or reset your password</Preview>
+
+      <Tailwind>
+        <Body className="bg-white font-sans">
+          <Container className="mx-auto max-w-xl px-4 py-12">
+            <Text className="text-2xl font-bold text-black">{companyName}</Text>
+
+            <Heading className="mt-8 text-2xl font-bold text-gray-900">
+              Create or reset your password
+            </Heading>
+
+            <Text className="text-base leading-6 text-gray-700">
+              We received a request to create or reset your password. Click the button
+              below to choose a new password.
+            </Text>
+
+            <Button
+              href={resetUrl}
+              className="mt-4 box-border inline-block rounded-md bg-black px-6 py-3 font-medium text-white"
+            >
+              Set Password
+            </Button>
+
+            <Text className="mt-4 text-sm text-gray-500">
+              This link will expire in {expiresIn}.
+            </Text>
+
+            <Hr className="my-8 border-gray-200" />
+
+            <Text className="text-sm text-gray-500">
+              If you didn&apos;t request a password reset, you can safely ignore
+              this email. Your password will remain unchanged.
+            </Text>
+
+            {/* Security notice */}
+            <div className="mt-6 rounded-md border border-solid border-yellow-200 bg-yellow-50 p-4">
+              <Text className="m-0 text-sm text-yellow-800">
+                <strong>Security tip:</strong> Never share this link with
+                anyone. {companyName} will never ask for your password via email.
+              </Text>
+            </div>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+  );
+}
+
+PasswordResetEmailTemplate.PreviewProps = {
+  resetUrl: "https://example.com/reset-password?token=abc123xyz",
+  expiresIn: "1 hour",
+  companyName: ""
+} satisfies PasswordResetEmailTemplateProps;
+
+export default PasswordResetEmailTemplate;
+
+
+export async function sendPasswordResetEmail(
+  { userEmail, resetUrl, expiresIn = "1 hour", companyName = appName }: {
+    userEmail: string;
+    resetUrl: string,
+    expiresIn?: string;
+    companyName?: string;
+  }
+) {
+  await sendEmail({
+    to: userEmail,
+    subject: "Create or reset your password",
+    html: (await render(
+      PasswordResetEmailTemplate({ resetUrl: resetUrl, expiresIn, companyName })
+    )) as string,
+  });
+}

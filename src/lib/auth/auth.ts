@@ -1,0 +1,143 @@
+import { betterAuth } from "better-auth";
+// import Database from "better-sqlite3";
+import { db } from "@/lib/db/index";
+import * as betterAuthSchema from "@/lib/db/schema/better-auth-schema";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import ENVConfig from "@/config";
+// import { sendDeleteAccountEmail } from "@/email/email-templates/delete-account";
+// import { sendDeleteAccountConfirmPageEmail } from "@/email/email-templates/delete-account-confirm-page";
+import { sendPasswordResetEmail } from "@/email/email-templates/password-reset";
+import { sendEmailVerification } from "@/email/email-templates/email-verification";
+import { serverPlugins } from "./plugins/plugins-server";
+
+const baseURL = ENVConfig.backend_base_url;
+
+const drizzleDatabase = drizzleAdapter(db, {
+  provider: "pg", // or "pg" or "mysql"
+  schema: betterAuthSchema,
+})
+
+
+export const auth = betterAuth({
+  appName: ENVConfig.app_name,
+  baseURL: baseURL,
+  database: drizzleDatabase,
+  rateLimit: {
+    enabled: true,
+    window: 10, // time window in seconds
+    max: 100, // max requests in the window
+  },
+  user: {
+    additionalFields: {
+      timezone: {
+        type: "string",
+        required: false,
+        defaultValue: "UTC",
+        input: true,
+      },
+      timezoneMode: {
+        type: "string", // "auto" | "custom"
+        required: false,
+        defaultValue: "auto",
+        input: true,
+      },
+      agentCode: {
+        type: "string",
+        required: false,
+        defaultValue: undefined,
+        input: true,
+      },
+    },
+    deleteUser: {
+      enabled: true,
+      // sendDeleteAccountVerification: async ({ user, token }) => {
+      //   // await sendDeleteAccountEmail({ userEmail: user.email, deletionUrl: url });
+      //   const confirmationPageUrl = `${baseURL}/auth/delete-account?token=${token}`;
+      //   await sendDeleteAccountConfirmPageEmail({ userEmail: user.email, confirmationPageUrl });
+      // },
+    }
+  },
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: true,
+    expiresIn: 60 * 60 * 1, // 1 hour
+    sendResetPassword: async ({ user, url, token }, request) => {
+      await sendPasswordResetEmail(
+        { userEmail: user.email, resetUrl: url, expiresIn: "1 hour" },
+      );
+    },
+  },
+  emailVerification: {
+    autoSignInAfterVerification: true,
+    expiresIn: 60 * 60 * 1, // 1 hour
+    sendVerificationEmail: async ({ user, url, token }, request) => {
+      // Don't await - prevents timing attacks
+      await sendEmailVerification(
+        { userEmail: user.email, verificationUrl: url, expiresIn: "1 hour" },
+      );
+    },
+    async afterEmailVerification(user, request) {
+      // Your custom logic here, e.g., grant access to premium features
+      console.log(`${user.email} has been successfully verified!`);
+    },
+    sendOnSignUp: true,
+    sendOnSignIn: false,
+  },
+  session: {
+    freshAge: 60 * 10, // the session is fresh if created within the last freshAge seconds (Set to 0 to disable freshness check)
+    // expiresIn: 60 * 60 * 24 * 7, // 7 days
+    // updateAge: 60 * 60 * 24, // refresh every 24h
+    expiresIn: 60 * 60 * 24 * 2, // 2 days
+    updateAge: 60 * 60 * 24 * 1, // refresh every day
+    cookieCache: {
+      strategy: "jwt", // "compact" or "jwt" or "jwe"
+      enabled: true, // Enable caching session in cookie (default: `false`)
+      maxAge: 60 * 60 * 1, // 1 hour
+      // refreshCache: true, // Refresh cookie cache when session is updated via updateAge
+    },
+  },
+  socialProviders: {
+    //https://www.better-auth.com/docs/authentication/google
+    //https://console.cloud.google.com/apis/dashboard
+    google: {
+      prompt: "select_account",
+      // prompt: "select_account consent",
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      // accessType: "offline",
+    },
+    zoom: {
+      clientId: process.env.ZOOM_CLIENT_ID as string,
+      clientSecret: process.env.ZOOM_CLIENT_SECRET as string,
+    },
+  },
+  account: {
+    // modelName: "accounts",
+    // fields: {
+    //   userId: "user_id"
+    // },
+    encryptOAuthTokens: true, // Encrypt OAuth tokens before storing them in the database
+    storeAccountCookie: false, // Store account data after OAuth flow in a cookie (useful for database-less flows)
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google", "zoom", "calendly", "email-password"], // or async (request) => ["google", "github"]
+      allowDifferentEmails: true
+    }
+  },
+  trustedOrigins: [
+    baseURL,
+    "exp://",
+    "exp://**",
+    "mobileapp://",
+    "mobileapp://*",
+    "http://localhost:3000"
+  ],
+  advanced: {
+    // useSecureCookies: true
+  },
+  plugins: serverPlugins,
+});
+
+// http://localhost:3000/api/auth/reference
+
+type Session = typeof auth.$Infer.Session
