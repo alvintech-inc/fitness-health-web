@@ -6,8 +6,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Activity,
-  Building2,
-  ChevronsUpDown,
   Dumbbell,
   Droplets,
   FileBarChart2,
@@ -38,7 +36,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { appName } from "@/config";
+import { appName, logoPath } from "@/config";
 
 export const SIDEBAR_ICON_W = 54;
 export const SIDEBAR_PINNED_W = 240;
@@ -87,64 +85,22 @@ const navGroups = [
     label: "Account",
     items: [
       { title: "Integrations", url: routes.dashboard.integrations(), icon: Plug },
-      { title: "Settings", url: routes.dashboard.settings(), icon: Settings },
     ],
   },
 ];
 
-// ── Org switcher button ────────────────────────────────────────────────────────
-
-interface OrgSwitcherButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  orgName?: string;
-  isExpanded?: boolean;
-}
-
-const OrgSwitcherButton = React.forwardRef<HTMLButtonElement, OrgSwitcherButtonProps>(
-  ({ orgName, isExpanded, ...props }, ref) => {
-    const expanded = isExpanded ?? true;
-    return (
-      <button
-        ref={ref}
-        {...props}
-        className="flex w-full items-center gap-2 rounded-xl px-2 py-2 text-foreground hover:bg-sidebar-primary/10 transition-colors mb-1 border-border border"
-      >
-        <span className="flex size-5 shrink-0 items-center justify-center">
-          <Building2 className="size-4" />
-        </span>
-        <span
-          className={cn(
-            "flex-1 min-w-0 truncate whitespace-nowrap text-left text-sm font-medium overflow-hidden transition-[opacity,max-width] duration-200",
-            expanded ? "opacity-100" : "opacity-0 max-w-0",
-          )}
-        >
-          {orgName ?? "Select organization"}
-        </span>
-        <ChevronsUpDown
-          className={cn(
-            "ml-auto size-4 shrink-0 text-muted-foreground transition-opacity duration-200",
-            expanded ? "opacity-100" : "opacity-0",
-          )}
-        />
-      </button>
-    );
-  },
-);
-// OrgSwitcherButton.displayName = "OrgSwitcherButton";
+const settingsNavItem = { title: "Settings", url: routes.dashboard.settings(), icon: Settings };
 
 // ── Shared nav content (used by both desktop sidebar and mobile sheet) ─────────
 
 function NavContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
-  const [orgDialogOpen, setOrgDialogOpen] = React.useState(false);
-  const { data: activeOrg } = useActiveOrganization();
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       {/* Org switcher — pinned */}
       {/* <div className="px-2 py-2 shrink-0 border-b">
-        <OrgSwitcherDialog open={orgDialogOpen} onOpenChange={setOrgDialogOpen}>
-          <OrgSwitcherButton orgName={activeOrg?.name} />
-        </OrgSwitcherDialog>
+        <SidebarOrgSwitcher />
       </div> */}
 
       {/* Nav groups — scrollable */}
@@ -179,6 +135,23 @@ function NavContent({ onNavigate }: { onNavigate?: () => void }) {
             })}
           </div>
         ))}
+        <div className="px-2 mb-1">
+          <Link
+            href={settingsNavItem.url}
+            onClick={onNavigate}
+            className={cn(
+              "flex items-center gap-2 rounded-xl px-2 py-2 text-sm transition-colors mb-1",
+              pathname === settingsNavItem.url
+                ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                : "text-sidebar-foreground hover:bg-sidebar-accent/60",
+            )}
+          >
+            <span className="flex size-5 shrink-0 items-center justify-center">
+              <settingsNavItem.icon className="size-4" />
+            </span>
+            <span>{settingsNavItem.title}</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -201,7 +174,6 @@ export function AppSidebarV2({ isPinned, onTogglePin }: AppSidebarV2Props) {
     if (!orgDialogOpen) setIsHovered(false);
   }, [orgDialogOpen]);
   const pathname = usePathname();
-  const { data: activeOrg } = useActiveOrganization();
 
   return (
     <aside
@@ -218,7 +190,7 @@ export function AppSidebarV2({ isPinned, onTogglePin }: AppSidebarV2Props) {
       <div className="flex h-12 shrink-0 items-center px-3 gap-2">
         <Link href="/" className="shrink-0">
           <Image
-            src="/logo.svg"
+            src={logoPath}
             alt={appName}
             width={28}
             height={28}
@@ -254,13 +226,12 @@ export function AppSidebarV2({ isPinned, onTogglePin }: AppSidebarV2Props) {
 
       {/* Org switcher — pinned */}
       {/* <div className="px-2 py-2 shrink-0 border-b">
-        <OrgSwitcherDialog open={orgDialogOpen} onOpenChange={setOrgDialogOpen}>
-          <OrgSwitcherButton orgName={activeOrg?.name} isExpanded={isExpanded} />
-        </OrgSwitcherDialog>
+        <SidebarOrgSwitcher isExpanded={isExpanded} onOpenChange={setOrgDialogOpen} />
       </div> */}
 
       {/* Scrollable nav */}
-      <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden py-2">
+      <div className="relative flex-1 min-h-0">
+        <div className="h-full flex flex-col overflow-y-auto overflow-x-hidden py-2">
         {/* Nav groups */}
         {navGroups.map((group, i) => (
           <div key={i} className="px-2 mb-1">
@@ -303,6 +274,46 @@ export function AppSidebarV2({ isPinned, onTogglePin }: AppSidebarV2Props) {
             })}
           </div>
         ))}
+        </div>
+        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-5 bg-linear-to-t from-sidebar/90 to-transparent" />
+      </div>
+
+      {/* Settings — pinned to bottom */}
+      <div className="px-2 py-1 shrink-0 border-t">
+        {(() => {
+          const isActive = pathname === settingsNavItem.url;
+          return (
+            <Link
+              href={settingsNavItem.url}
+              className={cn(
+                "flex items-center gap-2 rounded-xl px-2 py-2 text-sm transition-colors",
+                isActive
+                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent/60",
+              )}
+            >
+              <span className="flex size-5 shrink-0 items-center justify-center">
+                <settingsNavItem.icon className="size-4" />
+              </span>
+              <span
+                className={cn(
+                  "whitespace-nowrap overflow-hidden transition-[opacity,max-width] duration-200",
+                  isExpanded ? "opacity-100 max-w-50" : "opacity-0 max-w-0",
+                )}
+              >
+                {settingsNavItem.title}
+              </span>
+            </Link>
+          );
+        })()}
+        {/* <p
+          className={cn(
+            "px-2 text-[10px] text-sidebar-foreground/30 whitespace-nowrap overflow-hidden transition-[opacity,max-width] duration-200",
+            isExpanded ? "opacity-100 max-w-50" : "opacity-0 max-w-0",
+          )}
+        >
+          v{version}
+        </p> */}
       </div>
     </aside>
   );
@@ -334,7 +345,7 @@ export function MobileNav() {
         <div className="flex items-center gap-2.5 px-4 py-2 border-b shrink-0">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/logo.svg"
+              src={logoPath}
               alt={appName}
               width={28}
               height={28}

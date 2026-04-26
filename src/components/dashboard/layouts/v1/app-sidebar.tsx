@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { NavMenu } from "@/components/dashboard/nav-menu";
-import { OrgSwitcher } from "@/components/dashboard/org-switcher";
+// import { OrgSwitcher } from "@/components/dashboard/org-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +16,7 @@ import {
   SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { appName } from "@/config";
+import { appName, logoPath } from "@/config";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -28,7 +28,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Link href="/">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg overflow-hidden shrink-0">
                   <Image
-                    src="/logo.png"
+                    src={logoPath}
                     alt={appName}
                     width={32}
                     height={32}
@@ -40,7 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        <OrgSwitcher />
+        {/* <OrgSwitcher /> */}
       </SidebarHeader>
       <SidebarContent>
         <NavMenu />

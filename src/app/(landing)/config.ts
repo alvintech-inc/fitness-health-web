@@ -1,6 +1,7 @@
 const appBaseUrl = ""
 
 export const appName = "Responsibly";
+export const logoPath = "/logo-heart.png";
 export const contactEmail = "responsibly.tech.app@gmail.com";
 
 export const signUpRoute = appBaseUrl + "/auth/sign-up";

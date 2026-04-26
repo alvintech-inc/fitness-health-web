@@ -12,6 +12,7 @@ export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENV || "local";
 // console.log("USING CONFIG ENV:", ENVIRONMENT);
 // -------------------------------------------------------------------------------------
 export const appName = "Core Health";
+export const logoPath = "/logo-heart.png";
 // -------------------------------------------------------------------------------------
 export const DEBUG_MODE = ["local", "local_https", "dev"].includes(ENVIRONMENT);
 // -------------------------------------------------------------------------------------
