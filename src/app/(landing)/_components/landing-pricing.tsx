@@ -3,52 +3,52 @@ import { contactEmail, startRoute } from "../config";
 
 const plans = [
     {
-        name: "Starter",
+        name: "Free",
         price: "Free",
         period: null,
-        description: "For small agencies getting started with gamified accountability.",
+        description: "For anyone starting their health journey and building daily habits.",
         features: [
-            "Up to 5 advisors",
-            "Core leaderboards & XP",
-            "Goal tracking",
-            "Weekly performance reports",
-            "Email support",
+            "Steps & activity tracking",
+            "Calorie counter (consumed & burned)",
+            "Sleep tracking",
+            "Daily goal progress",
+            "7-day history",
         ],
         cta: "Get started free",
         featured: false,
     },
     {
-        name: "Agency",
-        price: "$", // 49
+        name: "Pro",
+        price: "$9",
         period: "/month",
         badge: "Most popular",
-        description: "For growing agencies serious about advisor performance and retention.",
+        description: "For dedicated users who want deep insights and long-term trend analysis.",
         features: [
-            "Up to 25 advisors",
-            "Custom point rules & KPIs",
-            "Achievement badges system",
-            "Full analytics dashboard",
-            "Manager accountability tools",
-            "Data export & API access",
+            "Everything in Free",
+            "Heart rate monitoring & trends",
+            "Workout mix analytics",
+            "Water & weight tracking",
+            "Unlimited history & exports",
+            "Custom goal targets",
             "Priority support",
         ],
-        cta: "Start Agency plan",
+        cta: "Start Pro plan",
         featured: true,
     },
     {
-        name: "Enterprise",
+        name: "Family",
         price: "Custom",
         period: null,
-        description: "For large organizations with compliance, security, and scale requirements.",
+        description: "For households tracking health together with shared dashboards.",
         features: [
-            "Unlimited advisors",
-            "SSO & advanced permissions",
-            "Compliance-ready audit logs",
+            "Up to 6 members",
+            "Individual dashboards",
+            "Family goal challenges",
+            "Shared progress feed",
+            "All Pro features per member",
             "Dedicated onboarding",
-            "Custom integrations",
-            "SLA & dedicated support",
         ],
-        cta: "Contact sales",
+        cta: "Contact us",
         featured: false,
     },
 ];
@@ -61,7 +61,7 @@ export function LandingPricing() {
         >
             <div className="pointer-events-none absolute inset-0">
                 <div className="absolute left-1/2 top-0 h-56 w-125 -translate-x-1/2 rounded-full bg-primary/6 blur-3xl" />
-                <div className="absolute right-0 bottom-16 h-56 w-56 rounded-full bg-amber-500/6 blur-3xl" />
+                <div className="absolute right-0 bottom-16 h-56 w-56 rounded-full bg-emerald-500/6 blur-3xl" />
             </div>
 
             <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
@@ -71,10 +71,10 @@ export function LandingPricing() {
                         Pricing
                     </p>
                     <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-                        Pricing that scales with your team.
+                        Pricing that fits your goals.
                     </h2>
                     <p className="text-base leading-8 text-muted-foreground sm:text-lg">
-                        Start free and grow into enterprise-grade tools when your agency is ready. No hidden fees.
+                        Start for free and unlock the full picture when you&apos;re ready. No hidden fees, no commitment required.
                     </p>
                 </div>
 
@@ -137,7 +137,7 @@ export function LandingPricing() {
 
                                 {/* CTA */}
                                 <a
-                                    href={plan.name === "Enterprise" ? `mailto:${contactEmail}` : startRoute}
+                                    href={plan.name === "Family" ? `mailto:${contactEmail}` : startRoute}
                                     className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition ${plan.featured
                                             ? "bg-white text-primary hover:bg-white/90"
                                             : "bg-primary text-primary-foreground hover:brightness-110 shadow-md shadow-primary/20"
@@ -151,7 +151,7 @@ export function LandingPricing() {
                 </div>
 
                 <p className="mt-10 text-center text-sm text-muted-foreground">
-                    All plans include a 14-day free trial. No credit card required to start.
+                    All paid plans include a 14-day free trial. No credit card required to start.
                 </p>
             </div>
         </section>

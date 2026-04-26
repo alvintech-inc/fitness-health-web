@@ -15,7 +15,7 @@ const footerLinks = [
         heading: "Resources",
         links: [
             { label: "Support", href: "/support" },
-            { label: "Zoom Integration", href: "/integrations/zoom" },
+            { label: "Health Blog", href: "/blog" },
         ],
     },
     {
@@ -42,7 +42,7 @@ export function LandingFooter() {
                     <div className="space-y-4">
                         <Logo />
                         <p className="max-w-xs text-sm leading-7 text-muted-foreground">
-                            Gamified accountability for financial agencies. Keep every advisor motivated, consistent, and performing at their best.
+                            Personal health tracking for every goal. Monitor your steps, sleep, calories, and workouts in one beautiful dashboard.
                         </p>
                         <a
                             href={`mailto:${contactEmail}`}
@@ -85,7 +85,7 @@ export function LandingFooter() {
 
                 <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 sm:flex-row">
                     <p className="text-xs text-muted-foreground">
-                        © {new Date().getFullYear()} {appName}. Built for financial agencies who lead with accountability.
+                        © {new Date().getFullYear()} {appName}. Built for people who take their health seriously.
                     </p>
                     <div className="flex items-center gap-5 text-xs text-muted-foreground">
                         <Link href="/terms" className="transition hover:text-foreground">Terms</Link>

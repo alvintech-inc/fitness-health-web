@@ -1,29 +1,29 @@
-import { Settings, TrendingUp, Users } from "lucide-react";
+import { BarChart3, Settings, Smartphone } from "lucide-react";
 
 const steps = [
     {
         step: "01",
-        icon: Users,
-        title: "Onboard your agency",
+        icon: Smartphone,
+        title: "Connect your devices",
         description:
-            "Invite your advisors, configure KPI templates, and set up your point-scoring rules in minutes. No technical setup required — your team is ready to go same day.",
-        highlight: "Same-day setup",
+            "Link your wearable, fitness tracker, or health app in seconds. Responsibly syncs your steps, heart rate, sleep, and workouts automatically — no manual entry needed.",
+        highlight: "Instant sync",
     },
     {
         step: "02",
         icon: Settings,
-        title: "Agents earn points daily",
+        title: "Set your personal goals",
         description:
-            "Every completed activity — client calls, meetings, deal closes, check-ins — automatically logs XP. Streaks build, badges unlock, and momentum becomes visible.",
-        highlight: "Automated tracking",
+            "Define daily targets for steps, calories, water intake, sleep, and active minutes. Tailor every goal to your lifestyle and adjust them as you progress.",
+        highlight: "Fully personalised",
     },
     {
         step: "03",
-        icon: TrendingUp,
-        title: "Track, compete, and improve",
+        icon: BarChart3,
+        title: "Track trends and improve",
         description:
-            "Leaderboards surface your top performers. Analytics flag who needs coaching. Structured check-ins keep everyone accountable — and your pipeline healthy.",
-        highlight: "Data-driven growth",
+            "Rich charts surface weekly patterns across all your health metrics. Spot what's working, catch early warning signs, and stay motivated with streaks and goal completions.",
+        highlight: "Data-driven progress",
     },
 ];
 
@@ -43,10 +43,10 @@ export function LandingHowItWorks() {
                         How it works
                     </p>
                     <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-                        From setup to peak performance in three steps.
+                        From setup to healthier habits in three steps.
                     </h2>
                     <p className="text-base leading-8 text-muted-foreground sm:text-lg">
-                        Responsibly is designed to be running from day one — no long onboarding, no complex integrations.
+                        Responsibly is built to be effortless from day one — connect, set your goals, and let the data do the work.
                     </p>
                 </div>
 

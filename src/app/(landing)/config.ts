@@ -1,8 +1,8 @@
 const appBaseUrl = ""
 
-export const appName = "Responsibly";
+export const appName = "Core Health";
 export const logoPath = "/logo-heart.png";
-export const contactEmail = "responsibly.tech.app@gmail.com";
+export const contactEmail = "alvintech.app@gmail.com";
 
 export const signUpRoute = appBaseUrl + "/auth/sign-up";
 export const signInRoute = appBaseUrl + "/auth/sign-in";
