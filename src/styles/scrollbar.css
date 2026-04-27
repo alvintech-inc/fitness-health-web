@@ -1,0 +1,72 @@
+@utility scrollbar-hide {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.8 0 0 / 50%) transparent;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: oklch(0.8 0 0 / 50%);
+    border-radius: 9999px;
+  }
+
+  .dark & {
+    scrollbar-color: oklch(0.5 0 0 / 30%) transparent;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: oklch(0.5 0 0 / 30%);
+    }
+  }
+}
+
+/* Sidebar scrollbar: hidden by default, fades in after sidebar finishes expanding */
+.sidebar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 200ms ease 0ms;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 9999px;
+  transition: background-color 200ms ease 0ms;
+}
+
+.sidebar-scrollbar[data-expanded="true"] {
+  scrollbar-color: oklch(0.75 0 0 / 45%) transparent;
+  transition-delay: 250ms;
+}
+
+.sidebar-scrollbar[data-expanded="true"]::-webkit-scrollbar-thumb {
+  background-color: oklch(0.75 0 0 / 45%);
+  transition-delay: 250ms;
+}
+
+.dark .sidebar-scrollbar[data-expanded="true"] {
+  scrollbar-color: oklch(0.6 0 0 / 30%) transparent;
+}
+
+.dark .sidebar-scrollbar[data-expanded="true"]::-webkit-scrollbar-thumb {
+  background-color: oklch(0.6 0 0 / 30%);
+}
