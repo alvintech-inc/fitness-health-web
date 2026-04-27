@@ -230,7 +230,7 @@ export function AppSidebarV2({ isPinned, onTogglePin }: AppSidebarV2Props) {
 
       {/* Scrollable nav */}
       <div className="relative flex-1 min-h-0">
-        <div className={cn("h-full flex flex-col overflow-y-auto overflow-x-hidden py-2", isExpanded ? "scrollbar-thin" : "scrollbar-hide")}>
+        <div data-expanded={isExpanded} className="sidebar-scrollbar h-full flex flex-col overflow-y-auto overflow-x-hidden py-2">
         {/* Nav groups */}
         {navGroups.map((group, i) => (
           <div key={i} className="px-2 mb-1">
