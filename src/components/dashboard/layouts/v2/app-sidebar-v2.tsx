@@ -5,26 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
-  Activity,
-  Dumbbell,
-  Droplets,
-  FileBarChart2,
-  Flame,
-  FlaskConical,
-  Footprints,
+  Database,
   LayoutDashboard,
-  ListChecks,
   Menu,
-  Moon,
   PanelLeftClose,
   PanelRightOpen,
-  Pill,
-  Plug,
-  Scale,
   Settings,
-  Target,
-  TrendingUp,
-  UtensilsCrossed,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { routes } from "@/routes";
@@ -43,47 +30,9 @@ export const SIDEBAR_PINNED_W = 240;
 const navGroups = [
   {
     items: [
-      { title: "Dashboard", url: routes.dashboard.root(), icon: LayoutDashboard },
-    ],
-  },
-  {
-    label: "Health",
-    items: [
-      { title: "Vitals", url: routes.dashboard.vitals(), icon: Activity },
-      { title: "Lab Results", url: routes.dashboard.labResults(), icon: FlaskConical },
-      { title: "Body Metrics", url: routes.dashboard.bodyMetrics(), icon: Scale },
-      { title: "Medications", url: routes.dashboard.medications(), icon: Pill },
-      { title: "Sleep", url: routes.dashboard.sleep(), icon: Moon },
-    ],
-  },
-  {
-    label: "Fitness",
-    items: [
-      { title: "Workouts", url: routes.dashboard.workouts(), icon: Dumbbell },
-      { title: "Exercises", url: routes.dashboard.exercises(), icon: ListChecks },
-      { title: "Cardio & Steps", url: routes.dashboard.cardio(), icon: Footprints },
-    ],
-  },
-  {
-    label: "Nutrition",
-    items: [
-      { title: "Diet & Meals", url: routes.dashboard.diet(), icon: UtensilsCrossed },
-      { title: "Calories", url: routes.dashboard.calories(), icon: Flame },
-      { title: "Hydration", url: routes.dashboard.water(), icon: Droplets },
-    ],
-  },
-  {
-    label: "Insights",
-    items: [
-      { title: "Trends", url: routes.dashboard.trends(), icon: TrendingUp },
-      { title: "Goals", url: routes.dashboard.goals(), icon: Target },
-      { title: "Reports", url: routes.dashboard.reports(), icon: FileBarChart2 },
-    ],
-  },
-  {
-    label: "Account",
-    items: [
-      { title: "Integrations", url: routes.dashboard.integrations(), icon: Plug },
+      { title: "Dashboard",  url: routes.dashboard.root(),     icon: LayoutDashboard },
+      { title: "My Data",    url: routes.dashboard.data(),     icon: Database },
+      { title: "Insights",   url: routes.dashboard.insights(), icon: Sparkles },
     ],
   },
 ];
@@ -106,11 +55,6 @@ function NavContent({ onNavigate }: { onNavigate?: () => void }) {
       <div className="flex-1 overflow-y-auto py-2">
         {navGroups.map((group, i) => (
           <div key={i} className="px-2 mb-1">
-            {group.label && (
-              <p className="mb-0.5 px-2 text-xs font-medium text-sidebar-foreground/50">
-                {group.label}
-              </p>
-            )}
             {group.items.map((item) => {
               const isActive = pathname === item.url;
               return (
@@ -234,16 +178,6 @@ export function AppSidebarV2({ isPinned, onTogglePin }: AppSidebarV2Props) {
         {/* Nav groups */}
         {navGroups.map((group, i) => (
           <div key={i} className="px-2 mb-1">
-            {group.label && (
-              <p
-                className={cn(
-                  "mb-0.5 px-2 text-xs font-medium text-sidebar-foreground/50 whitespace-nowrap overflow-hidden transition-[opacity,max-width] duration-200",
-                  isExpanded ? "opacity-100 max-w-50" : "opacity-0 max-w-0",
-                )}
-              >
-                {group.label}
-              </p>
-            )}
             {group.items.map((item) => {
               const isActive = pathname === item.url;
               return (

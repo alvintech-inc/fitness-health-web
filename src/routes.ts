@@ -1,28 +1,13 @@
 export const routes = {
   dashboard: {
     root: () => "/dashboard",
-    // Health
-    vitals: () => "/dashboard/vitals",
-    labResults: () => "/dashboard/lab-results",
-    bodyMetrics: () => "/dashboard/body-metrics",
-    medications: () => "/dashboard/medications",
-    sleep: () => "/dashboard/sleep",
-    // Fitness
-    workouts: () => "/dashboard/workouts",
-    exercises: () => "/dashboard/exercises",
-    cardio: () => "/dashboard/cardio",
-    // Nutrition
-    diet: () => "/dashboard/diet",
-    calories: () => "/dashboard/calories",
-    water: () => "/dashboard/water",
-    // Insights
-    trends: () => "/dashboard/trends",
-    goals: () => "/dashboard/goals",
-    reports: () => "/dashboard/reports",
-    // Account
-    integrations: () => "/dashboard/integrations",
+    data: () => "/dashboard/data",
+    insights: () => "/dashboard/insights",
     settings: () => "/dashboard/settings",
-    // Legacy / misc
+    // kept for compatibility
+    integrations: () => "/dashboard/settings",
+    labResults: () => "/dashboard/lab-results",
+    trends: () => "/dashboard/trends",
     members: () => "/dashboard/members",
     memberProfile: (userId: string) => `/dashboard/members/${userId}`,
     organizations: () => "/dashboard/organizations",
